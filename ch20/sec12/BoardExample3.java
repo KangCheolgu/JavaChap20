@@ -101,7 +101,7 @@ public class BoardExample3 {
 		if(menuNo.equals("1")) {
 			try {
 				String sql = "" +
-						"INSERT INTO voards (bno, btitle, bcontent, bwriter, bdate) " +
+						"INSERT INTO boards (bno, btitle, bcontent, bwriter, bdate) " +
 						"VALUES (SEQ_BNO.NEXTVAL, ?,?,?,SYSDATE)";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				
