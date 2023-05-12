@@ -30,7 +30,7 @@ public class BoardExample3 {
 		System.out.println("--------------------------------------------------------");
 		System.out.println("[게시물 목록]");
 		System.out.println("--------------------------------------------------------");
-		System.out.printf("%-6s%-12s%-16s%-40s\n", "no", "writer", "date", "title");
+		System.out.printf("%-6s\t%-12s\t%-8s\t%-40s\n", "no", "writer", "date", "title");
 		System.out.println("--------------------------------------------------------");
 		try {
 			String sql = "" + "SELECT bno, btitle, bcontent, bwriter, bdate " + " FROM boards " + " ORDER BY bno DESC ";
@@ -45,7 +45,7 @@ public class BoardExample3 {
 				board.setBwriter(rs.getString("bwriter"));
 				board.setBdate(rs.getDate("bdate"));
 
-				System.out.printf("%-6s%-12s%-16s%-40s\n", board.getBno(), board.getBwriter(), board.getBdate(),
+				System.out.printf("%-6s\t%-12s\t%-8s\t%-40s\n", board.getBno(), board.getBwriter(), board.getBdate(),
 						board.getBtitle());
 			}
 			rs.close();
@@ -134,11 +134,11 @@ public class BoardExample3 {
 				board.setBwriter(rs.getString("bwriter"));
 				board.setBdate(rs.getDate("bdate"));
 				System.out.println("#######################");
-				System.out.println("번호:\t" + board.getBno());
-				System.out.println("제목:\t" + board.getBtitle());
-				System.out.println("내용:\t" + board.getBcontent());
-				System.out.println("작성자:\t" + board.getBwriter());
-				System.out.println("날짜:\t" + board.getBdate());
+				System.out.println("번호\t:\t" + board.getBno());
+				System.out.println("제목\t:\t" + board.getBtitle());
+				System.out.println("내용\t:\t" + board.getBcontent());
+				System.out.println("작성자\t:\t" + board.getBwriter());
+				System.out.println("날짜\t:\t" + board.getBdate());
 				System.out.println("-----------------------");
 				System.out.println("보조 메뉴 : 1.Update | 2.Delete | 3.List");
 				System.out.print("메뉴 선택 : ");
@@ -215,11 +215,41 @@ public class BoardExample3 {
 	}
 
 	public void clear() {
+		System.out.println("[게시물 전체 삭제]");
+		System.out.println("[삭제시 되돌릴수 없습니다]");
+		System.out.println("[정말 실행 하시겠습니까?]");
+		System.out.println("--------------------------------------------------------");
+		System.out.println("보조 메뉴 : 1.Ok | 2. Cancel");
+		System.out.print("메뉴 선택 : ");
+		String menuNo = scan.nextLine();
+	
+		if (menuNo.equals("1")) {
+			try {
+				String sql = "" + "TRUNCATE TABLE boards";
+
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+
+				pstmt.executeUpdate();
+				pstmt.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				exit();
+			}
+		}
 		
-		
+		list();
 	}
 
 	public void exit() {
+		if(conn != null) {
+			if(conn != null) 
+				try {
+					conn.close();
+				} catch (SQLException e ) {
+				}
+		}
+		System.out.println(" ** 게시판 종료 ** ");
 		System.exit(0);
 	}
 
